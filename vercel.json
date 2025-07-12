@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "name": "suprem-portfolio",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "public": true,
+  "github": {
+    "silent": true
+  }
+}
