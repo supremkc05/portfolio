@@ -1,0 +1,45 @@
+{
+  "name": "suprem-khatri-portfolio",
+  "version": "1.0.0",
+  "description": "Personal portfolio website for Suprem Khatri - AI/ML Developer",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx http-server . -p 3000 -o",
+    "dev": "npx live-server --port=3000 --open=index.html",
+    "build": "echo 'No build process required for static site'",
+    "deploy": "echo 'Deploy to your preferred hosting service'"
+  },
+  "keywords": [
+    "portfolio",
+    "personal-website",
+    "ai-ml",
+    "data-science",
+    "responsive-design",
+    "javascript",
+    "css3",
+    "html5"
+  ],
+  "author": {
+    "name": "Suprem Khatri",
+    "email": "Supremekc678@gmail.com",
+    "url": "https://your-portfolio-domain.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/suprem-portfolio.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/suprem-portfolio/issues"
+  },
+  "homepage": "https://your-portfolio-domain.com",
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "live-server": "^1.2.2"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
