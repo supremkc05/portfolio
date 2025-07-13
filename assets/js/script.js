@@ -7,7 +7,7 @@ const body = document.body;
 const currentTheme = localStorage.getItem('theme') || 'light';
 document.documentElement.setAttribute('data-theme', currentTheme);
 
-// Update icon based on current theme
+//dark mode
 if (currentTheme === 'dark') {
     themeIcon.classList.remove('fa-moon');
     themeIcon.classList.add('fa-sun');
@@ -170,17 +170,39 @@ animateElements.forEach(el => {
 
 // Enhanced typing effect for hero title
 function typeWriter(element, text, speed = 50) {
+    // Extract text content while preserving HTML structure
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = text;
+    const plainText = tempDiv.textContent || tempDiv.innerText || '';
+    
     let i = 0;
     element.innerHTML = '';
     element.style.borderRight = '2px solid var(--accent-color)';
     
     function type() {
-        if (i < text.length) {
-            element.innerHTML += text.charAt(i);
+        if (i < plainText.length) {
+            let currentText = plainText.substring(0, i + 1);
+            
+            // Apply highlight span to the name if we're typing it
+            if (currentText.includes('Suprem Khatri')) {
+                const nameStart = currentText.indexOf('Suprem Khatri');
+                if (nameStart !== -1) {
+                    const beforeName = currentText.substring(0, nameStart);
+                    const nameText = currentText.substring(nameStart, nameStart + 'Suprem Khatri'.length);
+                    const afterName = currentText.substring(nameStart + 'Suprem Khatri'.length);
+                    
+                    element.innerHTML = beforeName + '<span class="highlight">' + nameText + '</span>' + afterName;
+                } else {
+                    element.textContent = currentText;
+                }
+            } else {
+                element.textContent = currentText;
+            }
+            
             i++;
             setTimeout(type, speed);
         } else {
-            // Remove cursor after typing is complete
+            element.innerHTML = text;
             setTimeout(() => {
                 element.style.borderRight = 'none';
             }, 1000);
@@ -190,15 +212,27 @@ function typeWriter(element, text, speed = 50) {
     type();
 }
 
-// Initialize enhanced animations when page loads
 window.addEventListener('load', () => {
     const heroTitle = document.querySelector('.hero-title');
-    const originalText = heroTitle.innerHTML;
-    
-    // Add a delay before starting the typing effect
-    setTimeout(() => {
-        typeWriter(heroTitle, originalText, 30);
-    }, 800);
+    if (heroTitle) {
+        const hasHTML = /<[^>]*>/.test(heroTitle.innerHTML);
+        
+        if (hasHTML) {
+
+            heroTitle.style.opacity = '0';
+            heroTitle.style.transform = 'translateY(30px)';
+            setTimeout(() => {
+                heroTitle.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+                heroTitle.style.opacity = '1';
+                heroTitle.style.transform = 'translateY(0)';
+            }, 500);
+        } else {
+            const originalText = heroTitle.innerHTML;
+            setTimeout(() => {
+                typeWriter(heroTitle, originalText, 30);
+            }, 800);
+        }
+    }
     
     // Animate hero elements
     const heroElements = document.querySelectorAll('.hero-subtitle, .hero-description, .hero-buttons, .social-links');
