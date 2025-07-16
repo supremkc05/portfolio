@@ -550,4 +550,337 @@ function createThemeToggle() {
 // Initialize theme toggle (uncomment if you want dark mode)
 // createThemeToggle();
 
+// Projects Carousel Management System
+const projectsData = [
+    {
+        id: 1,
+        title: "Pothole Detection System",
+        category: "ml",
+        featured: true,
+        image: "assets/images/pothole-detection.png",
+        tags: ["CNN", "YOLO", "Docker"],
+        description: "Developed a real-time Pothole Detection System using YOLOv5n and YOLOv8n with GPS integration for smart city infrastructure planning.",
+        features: [
+            "Custom dataset annotation using Roboflow",
+            "Image augmentation for model robustness",
+            "Docker deployment for cross-platform sharing"
+        ],
+        githubUrl: "https://github.com/supremkc05/pothole-detection", // Update with actual URL when available
+        demoUrl: "#" // Update with actual demo URL when available
+    },
+    {
+        id: 2,
+        title: "NLP Text Analysis Suite",
+        category: "ml",
+        featured: true,
+        image: "assets/images/sentiment-analysis.jpeg",
+        tags: ["NLP", "Naive Bayes", "TF-IDF"],
+        description: "Implemented Spam Message Detection and Sentiment Analysis on Daraz product reviews using advanced NLP techniques.",
+        features: [
+            "Nepali text preprocessing and classification",
+            "High accuracy on low-resource datasets",
+            "Interactive visualizations with Seaborn"
+        ],
+        githubUrl: "https://github.com/supremkc05/SentimentalAnalysis.git",
+        demoUrl: "#" // Update with actual demo URL when available
+    },
+    {
+        id: 3,
+        title: "Dajubhai Minimart Analysis",
+        category: "data",
+        featured: true,
+        image: "assets/images/dajubhai.jpeg",
+        tags: ["Machine Learning", "Pandas", "Plotly", "Matplotlib"],
+        description: "Built predictive models for retail analytics including loyalty classification and sales forecasting.",
+        features: [
+            "Random Forest for membership classification",
+            "Gradient Boosting for sales prediction",
+            "Interactive data visualization using matplot, plotly and Seaborn"
+        ],
+        githubUrl: "https://github.com/supremkc05/DajuBhaiMiniMart_Analysis.git",
+        demoUrl: "#" // Update with actual demo URL when available
+    },
+    {
+        id: 4,
+        title: "Trek Recommendation System",
+        category: "ml",
+        featured: false,
+        image: "assets/images/trek recommendation.png",
+        tags: ["Streamlit", "Regression", "Dashboard"],
+        description: "Developed a personalized trekking recommendation system based on user preferences and fitness levels.",
+        features: [
+            "Multi-factor recommendation algorithm",
+            "Interactive Streamlit dashboard",
+            "Real-time trek suggestions"
+        ],
+        githubUrl: "https://github.com/supremkc05/trek-recommendation", // Update with actual URL when available
+        demoUrl: "#" // Update with actual demo URL when available
+    },
+    {
+        id: 5,
+        title: "AirBnB-Pricing-Analysis and Prediction",
+        category: "data",
+        featured: true,
+        image: "assets/images/air_bnb.png",
+        tags: ["Data Visualization", "EDA", "Random Forest Regression", "Streamlit"],
+        description: "Data analysis project focused on understanding Airbnb pricing patterns and building predictive models for property pricing optimization.",
+        features: [
+            "Advanced Data analytics",
+            "Machine Learning Price Prediction",
+            "Interactive Streamlit dashboard",
+            "Comprehensive features engineering"
+        ],
+        githubUrl: "https://github.com/supremkc05/AirBnB-Pricing.git",
+        demoUrl: "https://airbnb-pricing.streamlit.app/"
+    },
+    {
+        id: 6,
+        title: "UI/UX Design Project",
+        category: "ui",
+        featured: false,
+        image: "assets/images/ui.jpg",
+        tags: ["UI/UX", "Design", "Frontend"],
+        description: "Modern and responsive user interface design with focus on user experience and accessibility.",
+        features: [
+            "Responsive design principles",
+            "User-centered design approach",
+            "Modern UI components"
+        ],
+        githubUrl: "https://github.com/supremkc05/ui-ux-project", // Update with actual URL when available
+        demoUrl: "#" // Update with actual demo URL when available
+    }
+];
+
+class ProjectCarousel {
+    constructor() {
+        this.currentCategory = 'all';
+        this.currentIndex = 0;
+        this.cardsPerView = this.getCardsPerView();
+        this.filteredProjects = projectsData;
+        this.carousel = document.getElementById('projects-carousel');
+        this.prevBtn = document.getElementById('prev-btn');
+        this.nextBtn = document.getElementById('next-btn');
+        
+        this.init();
+        this.setupEventListeners();
+        this.updateCounter();
+    }
+
+    init() {
+        this.renderProjects();
+        this.updateNavigationButtons();
+        window.addEventListener('resize', () => this.handleResize());
+    }
+
+    getCardsPerView() {
+        const width = window.innerWidth;
+        if (width < 480) return 1;
+        if (width < 768) return 1.2;
+        if (width < 1200) return 2;
+        return 3;
+    }
+
+    handleResize() {
+        this.cardsPerView = this.getCardsPerView();
+        this.currentIndex = 0;
+        this.updateCarousel();
+        this.updateNavigationButtons();
+    }
+
+    setupEventListeners() {
+        // Category buttons
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                this.setActiveCategory(e.target);
+                this.filterProjects(e.target.getAttribute('data-category'));
+            });
+        });
+
+        // Navigation buttons
+        this.prevBtn.addEventListener('click', () => this.prevSlide());
+        this.nextBtn.addEventListener('click', () => this.nextSlide());
+
+        // Touch/swipe support
+        this.setupTouchNavigation();
+    }
+
+    setupTouchNavigation() {
+        let startX = 0;
+        let startY = 0;
+        let distX = 0;
+        let distY = 0;
+
+        this.carousel.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].pageX;
+            startY = e.touches[0].pageY;
+        });
+
+        this.carousel.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+        });
+
+        this.carousel.addEventListener('touchend', (e) => {
+            distX = e.changedTouches[0].pageX - startX;
+            distY = e.changedTouches[0].pageY - startY;
+
+            if (Math.abs(distX) > Math.abs(distY) && Math.abs(distX) > 50) {
+                if (distX > 0) {
+                    this.prevSlide();
+                } else {
+                    this.nextSlide();
+                }
+            }
+        });
+    }
+
+    setActiveCategory(activeBtn) {
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        activeBtn.classList.add('active');
+    }
+
+    filterProjects(category) {
+        this.currentCategory = category;
+        this.currentIndex = 0;
+
+        if (category === 'all') {
+            this.filteredProjects = projectsData;
+        } else if (category === 'featured') {
+            this.filteredProjects = projectsData.filter(project => project.featured);
+        } else {
+            this.filteredProjects = projectsData.filter(project => project.category === category);
+        }
+
+        this.renderProjects();
+        this.updateNavigationButtons();
+        this.updateCounter();
+    }
+
+    renderProjects() {
+        this.carousel.innerHTML = '';
+        
+        this.filteredProjects.forEach((project, index) => {
+            const projectCard = this.createProjectCard(project);
+            this.carousel.appendChild(projectCard);
+            
+            // Add staggered animation
+            setTimeout(() => {
+                projectCard.style.opacity = '1';
+                projectCard.style.transform = 'translateY(0)';
+            }, index * 100);
+        });
+    }
+
+    createProjectCard(project) {
+        const card = document.createElement('div');
+        card.className = 'project-card';
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        
+        const featuresHTML = project.features.map(feature => `<li>${feature}</li>`).join('');
+        const tagsHTML = project.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
+        
+        // Always show GitHub button - if no URL, it can be a placeholder
+        const githubButton = project.githubUrl && project.githubUrl !== "#" ? 
+            `<a href="${project.githubUrl}" class="btn btn-primary btn-sm" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-github"></i> View Code
+            </a>` : 
+            `<a href="#" class="btn btn-primary btn-sm" onclick="alert('Repository will be available soon!')">
+                <i class="fab fa-github"></i> View Code
+            </a>`;
+        
+        // Always show Demo button - if no URL, it can be a placeholder
+        const demoButton = project.demoUrl && project.demoUrl !== "#" ? 
+            `<a href="${project.demoUrl}" class="btn btn-secondary btn-sm" target="_blank" rel="noopener noreferrer">
+                <i class="fas fa-external-link-alt"></i> Live Demo
+            </a>` : 
+            `<a href="#" class="btn btn-secondary btn-sm" onclick="alert('Live demo will be available soon!')">
+                <i class="fas fa-external-link-alt"></i> Live Demo
+            </a>`;
+
+        card.innerHTML = `
+            <div class="project-image">
+                <img src="${project.image}" alt="${project.title}" loading="lazy">
+                <div class="project-overlay">
+                    ${project.githubUrl && project.githubUrl !== "#" ? 
+                        `<a href="${project.githubUrl}" class="project-link" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>` : 
+                        `<a href="#" class="project-link" onclick="alert('Repository will be available soon!')"><i class="fab fa-github"></i></a>`
+                    }
+                </div>
+            </div>
+            <div class="project-content">
+                <div class="project-header">
+                    <h3>${project.title}</h3>
+                    <div class="project-tags">
+                        ${tagsHTML}
+                    </div>
+                </div>
+                <p>${project.description}</p>
+                <ul class="project-features">
+                    ${featuresHTML}
+                </ul>
+                <div class="project-actions">
+                    ${githubButton}
+                    ${demoButton}
+                </div>
+            </div>
+        `;
+        
+        return card;
+    }
+
+    prevSlide() {
+        if (this.currentIndex > 0) {
+            this.currentIndex--;
+            this.updateCarousel();
+            this.updateNavigationButtons();
+        }
+    }
+
+    nextSlide() {
+        const maxIndex = Math.max(0, this.filteredProjects.length - this.cardsPerView);
+        if (this.currentIndex < maxIndex) {
+            this.currentIndex++;
+            this.updateCarousel();
+            this.updateNavigationButtons();
+        }
+    }
+
+    updateCarousel() {
+        const cardWidth = 350; // Base card width
+        const gap = 32; // 2rem gap
+        const translateX = -(this.currentIndex * (cardWidth + gap));
+        this.carousel.style.transform = `translateX(${translateX}px)`;
+    }
+
+    updateNavigationButtons() {
+        const maxIndex = Math.max(0, this.filteredProjects.length - this.cardsPerView);
+        
+        this.prevBtn.disabled = this.currentIndex <= 0;
+        this.nextBtn.disabled = this.currentIndex >= maxIndex;
+        
+        // Hide navigation if all projects fit in view
+        const navigationNeeded = this.filteredProjects.length > this.cardsPerView;
+        this.prevBtn.style.display = navigationNeeded ? 'flex' : 'none';
+        this.nextBtn.style.display = navigationNeeded ? 'flex' : 'none';
+    }
+
+    updateCounter() {
+        const currentProjectsSpan = document.getElementById('current-projects');
+        const totalProjectsSpan = document.getElementById('total-projects');
+        
+        if (currentProjectsSpan && totalProjectsSpan) {
+            currentProjectsSpan.textContent = this.filteredProjects.length;
+            totalProjectsSpan.textContent = projectsData.length;
+        }
+    }
+}
+
+// Initialize Project Carousel when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    new ProjectCarousel();
+});
+
 console.log('Portfolio website loaded successfully! 🚀');
