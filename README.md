@@ -21,3 +21,5 @@ A modern, responsive portfolio website showcasing AI/ML projects, skills, and ac
 - **JavaScript (ES6+)**: Interactive functionality and theme switching
 - **Font Awesome**: Icon library for UI elements
 - **Google Fonts**: Inter font family for typography
+
+##deployed using Vercel
