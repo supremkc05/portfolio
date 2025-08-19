@@ -7,6 +7,49 @@
     <link rel="stylesheet" href="assets/css/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <meta name="description" content="Suprem Khatri's modern portfolio website. AI/ML projects, skills, certificates, and contact.">
+    <meta name="keywords" content="Suprem Khatri, AI, ML, Data Science, Portfolio, Developer, Projects, Resume">
+    <meta name="author" content="Suprem Khatri">
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="Suprem Khatri - AI/ML Developer Portfolio">
+    <meta property="og:description" content="Showcasing AI/ML projects, skills, and achievements.">
+    <meta property="og:image" content="assets/images/portfolio.jpg">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://your-portfolio-link.com">
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Suprem Khatri - AI/ML Developer Portfolio">
+    <meta name="twitter:description" content="Showcasing AI/ML projects, skills, and achievements.">
+    <meta name="twitter:image" content="assets/images/portfolio.jpg">
+    <link rel="icon" type="image/png" href="assets/images/portfolio.jpg">
+    <style>
+      .section-divider {
+        border: none;
+        border-top: 1.5px solid #e5e7eb;
+        margin: 0 0 3rem 0;
+        opacity: 0.5;
+      }
+      #backToTop {
+        display: none;
+        position: fixed;
+        bottom: 32px;
+        right: 32px;
+        z-index: 999;
+        background: var(--primary-color, #2563eb);
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        width: 48px;
+        height: 48px;
+        font-size: 1.5rem;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      #backToTop:hover {
+        background: var(--secondary-color, #667eea);
+      }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
@@ -66,6 +109,7 @@
         </div>
     </section>
 
+    <hr class="section-divider">
     <!-- About Section -->
     <section id="about" class="about">
         <div class="container">
@@ -112,6 +156,7 @@
         </div>
     </section>
 
+    <hr class="section-divider">
     <!-- Skills Section -->
     <section id="skills" class="skills">
         <div class="container">
@@ -240,6 +285,7 @@
         </div>
     </section>
 
+    <hr class="section-divider">
     <!-- Projects Section -->
     <section id="projects" class="projects">
         <div class="container">
@@ -277,6 +323,7 @@
         </div>
     </section>
 
+    <hr class="section-divider">
     <!-- Certificates Section -->
     <section id="certificates" class="certificates">
         <div class="container">
@@ -345,6 +392,7 @@
         </div>
     </section>
 
+    <hr class="section-divider">
     <!-- Contact Section -->
     <section id="contact" class="contact">
         <div class="container">
@@ -398,6 +446,7 @@
         </div>
     </section>
 
+    <hr class="section-divider">
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
@@ -413,6 +462,22 @@
         </div>
     </footer>
 
+    <!-- Back to Top Button -->
+    <button id="backToTop" title="Back to Top"><i class="fas fa-arrow-up"></i></button>
+    <script>
+      // Back to Top Button
+      const backToTop = document.getElementById('backToTop');
+      window.onscroll = function() {
+        if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+          backToTop.style.display = 'block';
+        } else {
+          backToTop.style.display = 'none';
+        }
+      };
+      backToTop.onclick = function() {
+        window.scrollTo({top: 0, behavior: 'smooth'});
+      };
+    </script>
     <script src="assets/js/script.js"></script>
 </body>
 </html>
