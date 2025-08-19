@@ -663,13 +663,19 @@ class ProjectCarousel {
         
         this.init();
         this.setupEventListeners();
-        this.updateCounter();
     }
 
     init() {
+        console.log('🚀 Initializing ProjectCarousel...');
+        console.log('📊 Initial projectsData length:', projectsData.length);
+        console.log('📊 Initial filteredProjects length:', this.filteredProjects.length);
+        
         this.renderProjects();
         this.updateNavigationButtons();
+        this.updateCounter(); // Make sure counter is updated on initialization
         window.addEventListener('resize', () => this.handleResize());
+        
+        console.log('✅ ProjectCarousel initialization complete');
     }
 
     getCardsPerView() {
@@ -685,6 +691,7 @@ class ProjectCarousel {
         this.currentIndex = 0;
         this.updateCarousel();
         this.updateNavigationButtons();
+        this.updateCounter(); // Update counter on resize
     }
 
     setupEventListeners() {
@@ -741,6 +748,7 @@ class ProjectCarousel {
     }
 
     filterProjects(category) {
+        console.log('🔍 Filtering projects for category:', category);
         this.currentCategory = category;
         this.currentIndex = 0;
 
@@ -752,6 +760,8 @@ class ProjectCarousel {
             this.filteredProjects = projectsData.filter(project => project.category === category);
         }
 
+        console.log(`🔢 Filter result: ${this.filteredProjects.length} projects out of ${projectsData.length} total`);
+        
         this.renderProjects();
         this.updateNavigationButtons();
         this.updateCounter();
@@ -870,13 +880,89 @@ class ProjectCarousel {
     updateCounter() {
         const currentProjectsSpan = document.getElementById('current-projects');
         const totalProjectsSpan = document.getElementById('total-projects');
+        const projectsCompletedCount = document.getElementById('projects-completed-count');
         
         if (currentProjectsSpan && totalProjectsSpan) {
+            // Debug logging
+            console.log('=== PROJECT COUNTER DEBUG ===');
+            console.log('Total projectsData array length:', projectsData.length);
+            console.log('Filtered projects length:', this.filteredProjects.length);
+            console.log('Current category:', this.currentCategory);
+            console.log('All project IDs:', projectsData.map(p => p.id));
+            console.log('Filtered project IDs:', this.filteredProjects.map(p => p.id));
+            
+            // Update the counter with actual numbers
             currentProjectsSpan.textContent = this.filteredProjects.length;
             totalProjectsSpan.textContent = projectsData.length;
+            
+            // Update the "Projects Completed" stat in the About section
+            if (projectsCompletedCount) {
+                projectsCompletedCount.textContent = `${projectsData.length}+`;
+            }
+            
+            // Add some visual feedback for the counter
+            console.log(`✅ Counter Updated: ${this.filteredProjects.length} of ${projectsData.length} (${this.currentCategory})`);
+        } else {
+            console.warn('❌ Project counter elements not found in DOM');
         }
     }
+
+    // Helper method to add new projects dynamically
+    addProject(newProject) {
+        // Add unique ID if not provided
+        if (!newProject.id) {
+            newProject.id = Math.max(...projectsData.map(p => p.id), 0) + 1;
+        }
+        
+        // Add to projects data
+        projectsData.push(newProject);
+        
+        // Refresh the current view
+        this.filterProjects(this.currentCategory);
+        
+        // Update the "Projects Completed" counter in About section
+        const projectsCompletedCount = document.getElementById('projects-completed-count');
+        if (projectsCompletedCount) {
+            projectsCompletedCount.textContent = `${projectsData.length}+`;
+        }
+        
+        console.log(`Added new project: ${newProject.title}`);
+        console.log(`Total projects now: ${projectsData.length}`);
+    }
 }
+
+// Initialize project carousel when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM Content Loaded - Initializing portfolio...');
+    
+    // Initialize the project carousel
+    const carousel = new ProjectCarousel();
+    
+    // Make carousel globally accessible for easy project management
+    window.portfolioCarousel = carousel;
+    
+    // Example of how to add a new project dynamically:
+    // To add a new project, simply call:
+    // window.portfolioCarousel.addProject({
+    //     title: "My New Project",
+    //     description: "Description of my awesome project",
+    //     category: "web-development", // or "ml", "data", "ui"
+    //     featured: false, // or true if you want it in featured section
+    //     technologies: ["HTML", "CSS", "JavaScript"],
+    //     image: "assets/images/new-project.jpg",
+    //     tags: ["Frontend", "Responsive"],
+    //     features: [
+    //         "Feature 1 description",
+    //         "Feature 2 description", 
+    //         "Feature 3 description"
+    //     ],
+    //     githubUrl: "https://github.com/username/new-project",
+    //     demoUrl: "https://username.github.io/new-project"
+    // });
+    
+    console.log('Portfolio initialized successfully!');
+    console.log('Use window.portfolioCarousel.addProject() to add new projects');
+});
 
 // Initialize Project Carousel when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
