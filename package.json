@@ -1,7 +1,7 @@
 {
   "name": "suprem-khatri-portfolio",
   "version": "1.0.0",
-  "description": "Personal portfolio website for Suprem Khatri - AI/ML Developer",
+  "description": "Personal portfolio website for Suprem Khatri — Software Engineer & Data Analyst",
   "main": "index.html",
   "scripts": {
     "start": "npx http-server . -p 3000 -o",
@@ -12,17 +12,16 @@
   "keywords": [
     "portfolio",
     "personal-website",
-    "ai-ml",
-    "data-science",
-    "responsive-design",
-    "javascript",
-    "css3",
-    "html5"
+    "software-engineer",
+    "data-analyst",
+    "django",
+    "fastapi",
+    "responsive-design"
   ],
   "author": {
     "name": "Suprem Khatri",
-    "email": "Supremekc678@gmail.com",
-    "url": "https://your-portfolio-domain.com"
+    "email": "Supremekc83.work@gmail.com",
+    "url": "https://github.com/supremkc05"
   },
   "license": "MIT",
   "repository": {

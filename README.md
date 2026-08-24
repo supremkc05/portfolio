@@ -1,25 +1,29 @@
-# Suprem Khatri - Portfolio Website
+# Suprem Khatri | Portfolio
 
-A modern, responsive portfolio website showcasing AI/ML projects, skills, and achievements.
+Modern animated portfolio for Suprem Khatri (Software Engineer & Data Analyst).
 
-## 🚀 Features
+## Features
 
-- **Responsive Design**: Works perfectly on desktop, tablet, and mobile devices
-- **Dark/Light Mode**: Toggle between themes with smooth transitions
-- **Modern UI/UX**: Clean design with glassmorphism effects and smooth animations
-- **Project Showcase**: Interactive project cards with image overlays and links
-- **Skills Section**: Organized technology stack with interactive tags
-- **Certificates**: Professional certifications with action buttons
-- **Contact Form**: Functional contact form with validation
-- **SEO Optimized**: Semantic HTML structure with proper meta tags
+- Sticky navigation with smooth scroll and active section highlighting
+- Dark / light theme toggle (persisted)
+- Hero typewriter + rotating role titles
+- Scroll-triggered fade/slide reveals
+- Project cards with hover scale, shadow, and image zoom
+- Experience timeline, skills badges, contact form (mailto)
+- Fully responsive layout
 
+## Run locally
 
-## 🛠️ Technologies Used
+```bash
+npm start
+```
 
-- **HTML5**: Semantic markup structure
-- **CSS3**: Modern styling with CSS Grid, Flexbox, and custom properties
-- **JavaScript (ES6+)**: Interactive functionality and theme switching
-- **Font Awesome**: Icon library for UI elements
-- **Google Fonts**: Inter font family for typography
+Or open `index.html` directly. Build for Vercel:
 
-## deployed using Vercel
+```bash
+npm run build
+```
+
+## Stack
+
+HTML · CSS · Vanilla JS · Syne + Outfit · Font Awesome
